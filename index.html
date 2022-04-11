@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<title>Fitbit Web API demo</title>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>google.charts.load('current', {'packages':['line']});</script>
+</head>
+<body>
+    <h1>Fitbit Get Your Auth Token</h1>
+    <div id="input">
+        <div>
+            <p>You need to set your application Redirect URL to:</p>
+            <input type="text" id="redUrl"><p>(including trailing slash)</p>
+        </div>
+        <hl/>
+        <form>
+            <label for="clientId">Client ID:</label>
+            <input type="text" name="clientId" id="clientId" value="" />
+            <label for="clientSecret">Client Secret:</label>
+            <input type="clientSecret" name="clientSecret" id="clientSecret">
+            <label for="scopes">Scopes (comma separated):</label>
+            <input type="scopes" name="scopes" id="scopes">
+            <input type="submit" id="start" value="Start">
+        </form>
+    </div>
+    <div id="output">
+        <input type="text" id="access_token" />
+        <pre id="data">Data</pre>
+        <script src="./boot.js"></script>
+    </div>
+</body>
+</html>
