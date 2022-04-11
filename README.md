@@ -2,7 +2,7 @@
 
 ## How to use
 
-1. Clone this repo
+1. Clone this repo: `git clone git@github.com:Tiim/fitbit-oauth2-token.git`
 2. Serve the folder as http: `npx serve`
 3. In a separate terminal: run a https tunneling service: `npx localtunnel --port 3000`
 4. Open the webpage

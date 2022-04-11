@@ -49,23 +49,3 @@ function start(evt) {
     console.log(authUrl);
     window.location.replace(authUrl);
 }
-
-// Make an API request and graph it
-var processResponse = async function(res) {
-    if (!res.ok) {
-        console.log("Error: ", res);
-        await res.text().then(console.log);
-        throw new Error('Fitbit API request failed: '+ res);
-    }
-    
-    console.log(await res.json())
-    var contentType = res.headers.get('content-type')
-    if (contentType && contentType.indexOf("application/json") !== -1) {
-        return await res.json();
-    } else {
-        throw new Error('JSON expected but received ' + contentType);
-    }
-}
-
-
-  
