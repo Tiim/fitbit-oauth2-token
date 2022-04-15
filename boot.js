@@ -1,51 +1,55 @@
 // If user hasn't authed with Fitbit, redirect to Fitbit OAuth Implicit Grant Flow
-var fitbitAccessToken;
-document.querySelector("#redUrl").value = window.location.href;
-if (!window.location.hash) {
+const url = window.location.origin + window.location.pathname;
+const params = Object.fromEntries( new URLSearchParams(window.location.search).entries());
+
+if (!params.code) {
     document.querySelector("#output").style.display = `none`;
     document.querySelector("#start").addEventListener("click", start);
+    populateForm();
 }else{
     document.querySelector("#input").style.display = `none`;
-    var fragmentQueryParameters = {};
-    window.location.hash.slice(1).replace(
-        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-        function($0, $1, $2, $3) { fragmentQueryParameters[$1] = $3; }
-    );
-    console.log(fragmentQueryParameters);
-    fitbitAccessToken = fragmentQueryParameters.access_token;
-    document.querySelector("#access_token").value = fitbitAccessToken;
-    document.querySelector("#data").innerText =
-      JSON.stringify(fragmentQueryParameters, null, 2) +
-      "\n\nExample Query\n" +
-      `fetch("https://api.fitbit.com/1/user/-/activities/list.json?afterDate=2022-04-01&offset=0&limit=100&sort=asc", {
-        headers: new Headers({
-            Authorization: "Bearer " + fitbitAccessToken,
-        }),
-        mode: "cors",
-        method: "GET",
-    })`;
+    console.log(params);
+    document.querySelector("#access_token").value = params.code;
+    const state = JSON.parse(localStorage.getItem("state"));
+    document.querySelector("#outputjson").value = JSON.stringify(
+        {code: params.code, ...state, redirect_uri: url},null,2);
 }
 
+function populateForm() {
+    const state = JSON.parse(localStorage.getItem("state"));
+    document.querySelector("#redUrl").value = url;
+    if (state) {
+        document.querySelector("#client_id").value = state.client_id;
+        document.querySelector("#client_secret").value = state.client_secret;
+        document.querySelector("#scopes").value = state.scope;
+    } else {
+        document.querySelector("#scopes").value = "activity profile heartrate";
+    }
+}
 
-function start(evt) {
+async function start(evt) {
     evt.preventDefault();
 
-    const clientId = document.querySelector("#clientId").value;
-    const clientSecret = document.querySelector("#clientSecret").value;
+    const client_id = document.querySelector("#client_id").value;
+    const client_secret = document.querySelector("#client_secret").value;
     
     
     const publicUrl = encodeURIComponent(window.location.href);
     const scope = document.querySelector("#scopes").value.split(",").map(s => s.trim()).join(" ");
     
+    //const {codeVerifier, codeChallenge} = await generateId(50);
     
+    localStorage.setItem("state", JSON.stringify({client_id, client_secret, scope}));
+
     const authUrl =
-      "https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=" +
-      clientId +
+      "https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=" +
+      client_id +
       "&client_secret=" +
-      clientSecret +
+      client_secret +
       "&redirect_uri=" +
       publicUrl +
       "&scope=" + encodeURIComponent(scope);
+      //+ "&code_challenge_method=S256&code_challenge=" + codeChallenge;
     console.log(authUrl);
     window.location.replace(authUrl);
 }

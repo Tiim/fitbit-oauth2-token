@@ -10,15 +10,15 @@
     <h1>Fitbit Get Your Auth Token</h1>
     <div id="input">
         <div>
-            <p>You need to set your application Redirect URL to:</p>
-            <input type="text" id="redUrl"><p>(including trailing slash)</p>
+            <p>You need to set your <a href="https://dev.fitbit.com/apps">application Redirect URL</a> to:</p>
+            <input type="text" id="redUrl">
         </div>
         <hl/>
         <form>
-            <label for="clientId">Client ID:</label>
-            <input type="text" name="clientId" id="clientId" value="" />
-            <label for="clientSecret">Client Secret:</label>
-            <input type="clientSecret" name="clientSecret" id="clientSecret">
+            <label for="client_id">Client ID:</label>
+            <input type="text" name="client_id" id="client_id" value="" />
+            <label for="client_secret">Client Secret:</label>
+            <input type="client_secret" name="client_secret" id="client_secret">
             <label for="scopes">Scopes (comma separated):</label>
             <input type="scopes" name="scopes" id="scopes">
             <input type="submit" id="start" value="Start">
@@ -26,7 +26,8 @@
     </div>
     <div id="output">
         <input type="text" id="access_token" />
-        <pre id="data">Data</pre>
+        <pre id="data">The code is only valid for 10 minutes</pre>
+        <textarea id="outputjson" ></textarea>
         <script src="./boot.js"></script>
     </div>
 </body>
