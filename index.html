@@ -2,19 +2,47 @@
 <html lang="en-us">
 <head>
 <meta charset="utf-8">
-<title>Fitbit Web API demo</title>
-<script src="https://www.gstatic.com/charts/loader.js"></script>
-<script>google.charts.load('current', {'packages':['line']});</script>
+<title>Get your Fitbit AUTH Tokens</title>
 </head>
 <body>
-    <h1>Fitbit Get Your Auth Token</h1>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+        body {
+            margin: 1rem;
+            padding: 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+        }
+        .block {
+            margin: 1rem;
+        }
+    </style>
+    <h1>Get your Fitbit AUTH Tokens</h1>
+    <div>
+        <h2>How to use</h2>
+        <ol>
+            <li>Go to <a href="https://dev.fitbit.com/apps">dev.fitbit.com</a> and create an account if you do not yet have one.</li>
+            <li>Create a new application with type personal.</li>
+            <li>Set the redirect url to the value shown below, make sure to keep the trailing slash</li>
+            <li>Enter your Client ID and Client Secret. <em>This website does not send this data anywhere else than to the fitbit api. Your Client ID and Client Secret will not be stored.</em></li>
+            <li>Enter the list of comma or space separated scopes.</li>
+            <li>Hit the start button.</li>
+        </ol>
+    </div>
+    <div>
+    <h2>Fitbit Auth</h2>
     <div id="input">
-        <div>
-            <p>You need to set your <a href="https://dev.fitbit.com/apps">application Redirect URL</a> to:</p>
-            <input type="text" id="redUrl">
-        </div>
-        <hl/>
-        <form>
+        <form class="block">
+            <label for="redUrl">Redirect URL:</label>
+            <input type="text" readonly id="redUrl">
+        </form>
+        <h3>Enter your Client Data</h3>
+        <form class="block">
             <label for="client_id">Client ID:</label>
             <input type="text" name="client_id" id="client_id" value="" />
             <label for="client_secret">Client Secret:</label>
@@ -29,6 +57,7 @@
         <pre id="data">The code is only valid for 10 minutes</pre>
         <textarea id="outputjson" ></textarea>
         <script src="./boot.js"></script>
+    </div>
     </div>
 </body>
 </html>
